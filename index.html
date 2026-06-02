@@ -9,6 +9,7 @@
             --primary: #0056b3;
             --success: #28a745;
             --danger: #dc3545;
+            --warning: #ffc107;
             --dark: #333;
             --light: #f8f9fa;
         }
@@ -31,13 +32,15 @@
             text-align: center;
             color: var(--primary);
         }
+        
+        /* Tarjetas de Resumen */
         .summary-card {
             display: flex;
             justify-content: space-between;
             background: var(--light);
             padding: 20px;
             border-radius: 8px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border: 1px solid #ddd;
         }
         .summary-item {
@@ -54,10 +57,45 @@
             font-size: 1.8em;
             font-weight: bold;
         }
+        
+        /* Colores de texto */
         .text-success { color: var(--success) !important; }
         .text-danger { color: var(--danger) !important; }
         .text-primary { color: var(--primary) !important; }
         
+        /* Botones Generales */
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-add { background-color: var(--success); }
+        .btn-add:hover { background-color: #218838; }
+        .btn-delete { background-color: var(--danger); padding: 8px 12px; }
+        .btn-delete:hover { background-color: #c82333; }
+        
+        /* Botón Guardar */
+        .save-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-save {
+            background-color: var(--warning);
+            color: #333;
+            font-size: 1.2em;
+            padding: 12px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-save:hover {
+            background-color: #e0a800;
+        }
+
+        /* Tablas */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -79,18 +117,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            color: white;
-        }
-        .btn-add { background-color: var(--success); }
-        .btn-add:hover { background-color: #218838; }
-        .btn-delete { background-color: var(--danger); padding: 8px 12px; }
-        .btn-delete:hover { background-color: #c82333; }
         
         .section-title {
             display: flex;
@@ -122,6 +148,12 @@
         </div>
     </div>
 
+    <!-- BOTÓN DE GUARDADO -->
+    <div class="save-container">
+        <button class="btn-save" onclick="guardarDatos()">💾 Guardar Cambios</button>
+    </div>
+
+    <!-- SECCIÓN DE INGRESOS -->
     <div class="section-title">
         <h2>Ingresos</h2>
         <button class="btn-add" onclick="agregarFila('tabla-ingresos', 'ingreso')">+ Agregar Ingreso</button>
@@ -135,24 +167,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><input type="text" value="Ingreso 1 de Julio" oninput="calcularTotales()"></td>
-                <td><input type="number" class="ingreso-val" value="26000" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Pensión mensual" oninput="calcularTotales()"></td>
-                <td><input type="number" class="ingreso-val" value="11800" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Ingreso extra mencionado" oninput="calcularTotales()"></td>
-                <td><input type="number" class="ingreso-val" value="1400" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
+            <!-- Los datos se inyectarán aquí vía JavaScript -->
         </tbody>
     </table>
 
+    <!-- SECCIÓN DE GASTOS -->
     <div class="section-title">
         <h2>Gastos y Deudas</h2>
         <button class="btn-add" onclick="agregarFila('tabla-gastos', 'gasto')">+ Agregar Gasto</button>
@@ -166,81 +185,115 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td><input type="text" value="Betty (Señora de las comidas)" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="2600" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Betty (Última semana de mayo)" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="2200" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Señora Carmen" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="1100" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Doctor Tomás (3 terapias de $350)" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="1050" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Pedro (Muebles de la moto)" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="1500" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Tarjeta Amiga (Fin mes de junio)" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="1600" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
-            <tr>
-                <td><input type="text" value="Banco Azteca" oninput="calcularTotales()"></td>
-                <td><input type="number" class="gasto-val" value="1900" min="0" step="0.01" oninput="calcularTotales()"></td>
-                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
-            </tr>
+            <!-- Los datos se inyectarán aquí vía JavaScript -->
         </tbody>
     </table>
 </div>
 
 <script>
-    // Formateador de moneda para que se vea exacto y profesional
+    // 1. Datos por defecto (Los que me dictaste)
+    const datosPorDefecto = {
+        ingresos: [
+            { desc: "Ingreso 1 de Julio", monto: 26000 },
+            { desc: "Pensión mensual", monto: 11800 },
+            { desc: "Ingreso extra mencionado", monto: 1400 }
+        ],
+        gastos: [
+            { desc: "Betty (Señora de las comidas)", monto: 2600 },
+            { desc: "Betty (Última semana de mayo)", monto: 2200 },
+            { desc: "Señora Carmen", monto: 1100 },
+            { desc: "Doctor Tomás (3 terapias de $350)", monto: 1050 },
+            { desc: "Pedro (Muebles de la moto)", monto: 1500 },
+            { desc: "Tarjeta Amiga (Fin mes de junio)", monto: 1600 },
+            { desc: "Banco Azteca", monto: 1900 }
+        ]
+    };
+
+    // Formateador de moneda
     const formateador = new Intl.NumberFormat('es-MX', {
         style: 'currency',
         currency: 'MXN'
     });
 
+    // 2. Función para cargar los datos al iniciar la página
+    function cargarDatos() {
+        const guardado = localStorage.getItem('libroContableMama');
+        let datos;
+
+        if (guardado) {
+            datos = JSON.parse(guardado); // Si hay datos guardados, usarlos
+        } else {
+            datos = datosPorDefecto; // Si no hay nada, usar los originales
+        }
+
+        renderizarTabla('tabla-ingresos', datos.ingresos, 'ingreso-val');
+        renderizarTabla('tabla-gastos', datos.gastos, 'gasto-val');
+        calcularTotales();
+    }
+
+    // 3. Función para pintar las tablas basándose en los datos
+    function renderizarTabla(tablaId, filas, claseInput) {
+        const tbody = document.getElementById(tablaId).getElementsByTagName('tbody')[0];
+        tbody.innerHTML = ''; // Limpiar la tabla antes de llenarla
+
+        filas.forEach(fila => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" value="${fila.desc}" oninput="calcularTotales()"></td>
+                <td><input type="number" class="${claseInput}" value="${fila.monto}" min="0" step="0.01" oninput="calcularTotales()"></td>
+                <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // 4. Función para GUARDAR los datos en el navegador
+    function guardarDatos() {
+        const datos = {
+            ingresos: [],
+            gastos: []
+        };
+
+        // Recopilar ingresos
+        const filasIngresos = document.getElementById('tabla-ingresos').getElementsByTagName('tbody')[0].rows;
+        for (let row of filasIngresos) {
+            const desc = row.cells[0].getElementsByTagName('input')[0].value;
+            const monto = parseFloat(row.cells[1].getElementsByTagName('input')[0].value) || 0;
+            datos.ingresos.push({ desc, monto });
+        }
+
+        // Recopilar gastos
+        const filasGastos = document.getElementById('tabla-gastos').getElementsByTagName('tbody')[0].rows;
+        for (let row of filasGastos) {
+            const desc = row.cells[0].getElementsByTagName('input')[0].value;
+            const monto = parseFloat(row.cells[1].getElementsByTagName('input')[0].value) || 0;
+            datos.gastos.push({ desc, monto });
+        }
+
+        // Guardar en LocalStorage
+        localStorage.setItem('libroContableMama', JSON.stringify(datos));
+        alert("✅ ¡Los datos se han guardado correctamente!");
+    }
+
+    // 5. Función para calcular sumatorias en tiempo real
     function calcularTotales() {
         let totalIngresos = 0;
         let totalGastos = 0;
 
-        // Sumar ingresos
         const ingresos = document.querySelectorAll('.ingreso-val');
-        ingresos.forEach(input => {
-            const valor = parseFloat(input.value) || 0;
-            totalIngresos += valor;
-        });
+        ingresos.forEach(input => { totalIngresos += parseFloat(input.value) || 0; });
 
-        // Sumar gastos
         const gastos = document.querySelectorAll('.gasto-val');
-        gastos.forEach(input => {
-            const valor = parseFloat(input.value) || 0;
-            totalGastos += valor;
-        });
+        gastos.forEach(input => { totalGastos += parseFloat(input.value) || 0; });
 
-        // Calcular saldo
         const saldo = totalIngresos - totalGastos;
 
-        // Actualizar el DOM
         document.getElementById('total-ingresos').innerText = formateador.format(totalIngresos);
         document.getElementById('total-gastos').innerText = formateador.format(totalGastos);
         
         const saldoEl = document.getElementById('saldo-total');
         saldoEl.innerText = formateador.format(saldo);
         
-        // Cambiar color del saldo si es negativo
         if(saldo < 0) {
             saldoEl.className = 'text-danger';
         } else {
@@ -248,17 +301,18 @@
         }
     }
 
+    // 6. Funciones para agregar o eliminar filas manualmente
     function agregarFila(tablaId, tipo) {
         const tbody = document.getElementById(tablaId).getElementsByTagName('tbody')[0];
-        const nuevaFila = tbody.insertRow();
-        
+        const tr = document.createElement('tr');
         const claseInput = tipo === 'ingreso' ? 'ingreso-val' : 'gasto-val';
         
-        nuevaFila.innerHTML = `
-            <td><input type="text" placeholder="Descripción de la cuenta" oninput="calcularTotales()"></td>
+        tr.innerHTML = `
+            <td><input type="text" placeholder="Nueva descripción" oninput="calcularTotales()"></td>
             <td><input type="number" class="${claseInput}" value="0" min="0" step="0.01" oninput="calcularTotales()"></td>
             <td><button class="btn-delete" onclick="eliminarFila(this)">X</button></td>
         `;
+        tbody.appendChild(tr);
         calcularTotales();
     }
 
@@ -268,8 +322,8 @@
         calcularTotales();
     }
 
-    // Calcular por primera vez al cargar la página
-    window.onload = calcularTotales;
+    // Iniciar el sistema al cargar la página
+    window.onload = cargarDatos;
 </script>
 
 </body>
